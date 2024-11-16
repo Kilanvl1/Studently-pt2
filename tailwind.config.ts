@@ -9,6 +9,9 @@ export default {
   ],
   theme: {
     extend: {
+      screens: {
+        "2xl": "1440px",
+      },
       colors: {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
@@ -53,6 +56,18 @@ export default {
         backgroundGradient: {
           start: "#F2F2F2",
           end: "#D7F2F3",
+        },
+
+        borderGradient: {
+          purple: {
+            start: "#FF6262",
+            middle: "#000000",
+            end: "#5768FF",
+          },
+          green: {
+            start: "#27E727",
+            end: "#5768FF",
+          },
         },
       },
       borderRadius: {
