@@ -7,6 +7,7 @@ interface BorderGradientProps {
   className?: string;
   gradientColors: "purple" | "green";
   rounded?: boolean;
+  disabled?: boolean;
 }
 
 export const BorderGradient = ({
@@ -15,6 +16,7 @@ export const BorderGradient = ({
   className = "",
   gradientColors,
   rounded = true,
+  disabled = false,
 }: BorderGradientProps) => {
   const gradientCss =
     gradientColors === "purple"
@@ -30,6 +32,7 @@ export const BorderGradient = ({
           bg-gradient-to-r 
           ${gradientCss}
           ${rounded ? "rounded-2xl" : ""}
+          ${disabled ? "opacity-60" : ""}
         `}
       />
 

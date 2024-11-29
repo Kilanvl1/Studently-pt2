@@ -1,5 +1,6 @@
 import { integer, text, boolean, pgTable, serial } from "drizzle-orm/pg-core";
 import { sql } from "drizzle-orm";
+import { InferSelectModel, InferInsertModel } from "drizzle-orm";
 
 export const todo = pgTable("todo", {
   id: integer("id").primaryKey(),
@@ -22,3 +23,6 @@ export const profile = pgTable("profile", {
   isWorking: boolean("is_working").default(sql`NULL`),
   isLivingAtHome: boolean("is_living_at_home").default(sql`NULL`),
 });
+
+export type Profile = InferSelectModel<typeof profile>;
+export type NewProfile = InferInsertModel<typeof profile>;

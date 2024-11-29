@@ -1,10 +1,8 @@
-import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import desktopBanner from "@/public/desktop-banner.webp";
 import mobileBanner from "@/public/mobile-banner.webp";
 import { Logo } from "@/components/ui/logo";
-import { BorderGradient } from "@/components/ui/borderGradient";
-import { ButtonChevron } from "@/components/ui/buttonChevron";
+import { CtaButton } from "./ctaButton";
 
 export const LandingPage = () => {
   return (
@@ -25,7 +23,7 @@ const MobileLandingPage = () => {
       <h1 className="mb-7">
         Most international students miss out on government benefits.
       </h1>
-      <Button>Get Started</Button>
+      <CtaButton />
       <Image
         src={mobileBanner}
         alt="Banner"
@@ -55,9 +53,7 @@ const DesktopLandingPage = () => {
         <h1 className="mb-7">
           Most international students miss out on government benefits.
         </h1>
-        <BorderGradient gradientColors="purple" borderWidth={1}>
-          <ButtonChevron>Unlock my benefits</ButtonChevron>
-        </BorderGradient>
+        <CtaButton />
       </div>
     </>
   );

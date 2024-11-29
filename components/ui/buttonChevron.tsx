@@ -11,7 +11,7 @@ export const ButtonChevron = ({
   return (
     <Button {...props}>
       {children}
-      <ChevronRight className="ml-3 w-3 h-3" />
+      <ChevronRight className="w-3 h-3" />
     </Button>
   );
 };

@@ -4,20 +4,27 @@ import { db } from "@/db/drizzle";
 import { profile } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";
-import { Profile } from "@/types/profile";
+import { NewProfile, Profile } from "@/db/schema";
+import { CreateProfileType, createProfileSchema } from "@/zod-types/profile";
 
 export const addProfile = async (state: any, formData: FormData) => {
-  const name = formData.get("name") as string;
-  const phoneNumber = formData.get("phoneNumber") as string;
-  const newId = await db
-    .insert(profile)
-    .values({
-      name: name,
-      phoneNumber: phoneNumber,
-    })
-    .returning({ id: profile.id });
+  const validatedData = createProfileSchema.safeParse({
+    name: formData.get("name") as string,
+    phoneNumber: formData.get("phoneNumber") as string,
+  });
 
-  redirect(`/${newId[0].id}/questionnaire`);
+  if (!validatedData.success) {
+    return { errors: validatedData.error.flatten().fieldErrors };
+  }
+
+  const newId = (
+    await db
+      .insert(profile)
+      .values(validatedData.data)
+      .returning({ id: profile.id })
+  )[0].id;
+
+  redirect(`/${newId}/questionnaire`);
 };
 
 export const updateProfile = async (id: number, updatedProfile: Profile) => {
