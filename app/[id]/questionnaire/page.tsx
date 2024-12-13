@@ -31,7 +31,7 @@ export default async function QuestionnairePage({
           </p>
         </div>
 
-        <Questionnaire profile={profile[0]} />
+        <Questionnaire initialProfile={profile[0]} />
       </div>
     </Container>
   );

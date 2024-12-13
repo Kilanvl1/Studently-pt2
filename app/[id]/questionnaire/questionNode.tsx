@@ -1,4 +1,12 @@
-import { useState, useContext, createContext, useRef, useEffect } from "react";
+import {
+  useState,
+  useContext,
+  createContext,
+  useRef,
+  useEffect,
+  SetStateAction,
+  Dispatch,
+} from "react";
 
 import {
   Popover,
@@ -11,25 +19,19 @@ import info from "@/public/info.svg";
 import Image from "next/image";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
-import { profile } from "@/db/schema";
+import { Profile } from "@/db/schema";
 import { BorderGradient } from "@/components/ui/borderGradient";
 
-export type User = {
-  [key: string]: any;
+export type ProfileContextType = {
+  profile: Profile;
+  updateProfile: Dispatch<SetStateAction<Profile>>;
 };
 
-export type UserContextType = {
-  user: User;
-  updateUser: any;
-};
-
-export const UserContext = createContext<UserContextType>({
-  user: {},
-  updateUser: () => {},
-});
+// null! is a way of telling typescript that the context will never be null
+export const ProfileContext = createContext<ProfileContextType>(null!);
 
 type QuestionNodeProps = {
-  propertyKey: keyof typeof profile;
+  propertyKey: keyof Profile;
   question: string;
   children?: React.ReactNode;
   provideQuestionInfo?: string[];
@@ -41,31 +43,32 @@ export const QuestionNode = ({
   children,
   provideQuestionInfo,
 }: QuestionNodeProps) => {
-  const { user, updateUser } = useContext(UserContext);
+  const { profile, updateProfile } = useContext(ProfileContext);
 
   const [value, setValue] = useState(
-    user[propertyKey] === true
+    profile[propertyKey] === true
       ? "yes"
-      : user[propertyKey] === false
+      : profile[propertyKey] === false
       ? "no"
       : null
   );
   const nextQuestionRef = useRef<HTMLDivElement>(null);
 
   const handleSelectChange = (e: string) => {
-    const newUserObject: User = {};
-    let reachedTargetProperty = false;
+    const newProfileObject: Profile = { ...profile };
 
-    for (const key in user) {
-      if (key === propertyKey) {
-        reachedTargetProperty = true;
-      } else if (!reachedTargetProperty) {
-        newUserObject[key] = user[key];
-      }
+    const questionIds = Object.keys(profile);
+    const currentQuestionId = questionIds.indexOf(propertyKey);
+
+    // A property of profile can be a string | number | boolean | null so that's why we cast the result to boolean | null
+    for (let i = currentQuestionId + 1; i < questionIds.length; i++) {
+      (newProfileObject[questionIds[i] as keyof Profile] as boolean | null) =
+        null;
     }
+
     const valueAsBool = e === "yes" ? true : false;
     setValue(e);
-    updateUser({ ...newUserObject, [propertyKey]: valueAsBool });
+    updateProfile({ ...newProfileObject, [propertyKey]: valueAsBool });
   };
 
   useEffect(() => {

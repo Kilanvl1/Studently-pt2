@@ -2,7 +2,6 @@
 import { useState } from "react";
 
 import { ButtonChevron } from "@/components/ui/buttonChevron";
-import { useRouter } from "next/navigation";
 import { BorderGradient } from "@/components/ui/borderGradient";
 export const SeeResultsButton = () => {
   const [isLoading, setIsLoading] = useState(false);

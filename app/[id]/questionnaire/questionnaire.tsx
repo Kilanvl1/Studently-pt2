@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-import { UserContext, UserContextType } from "./questionNode";
+import { ProfileContext, ProfileContextType } from "./questionNode";
 import { InputWithLabel } from "@/components/ui/inputWithLabel";
 import { LeafNode } from "../../../components/ui/leafNode";
 import { SeeResultsButton } from "./seeResultsButton";
@@ -15,17 +15,24 @@ import { questionNodes } from "./questionNodes";
 import { Profile } from "@/db/schema";
 import { SubmitButton } from "@/components/ui/submitButton";
 
-export const Questionnaire = ({ profile }: { profile: Profile }) => {
-  const [user, setUser] = useState(profile);
-  const updateProfileActionWithUser = updateProfile.bind(null, user);
+export const Questionnaire = ({
+  initialProfile,
+}: {
+  initialProfile: Profile;
+}) => {
+  const [profile, setProfile] = useState(initialProfile);
+  const updateProfileAction = updateProfile.bind(null, profile);
 
-  const contextValue: UserContextType = { user, updateUser: setUser };
-  const ageAsNumber = user.age ?? 0;
-  console.log(user);
+  const contextValue: ProfileContextType = {
+    profile,
+    updateProfile: setProfile,
+  };
+  const ageAsNumber = profile.age ?? 0;
+
   return (
     <form
       className="flex flex-col gap-y-8 2xl:flex-1 min-h-[80vh] max-w-[32rem]"
-      action={updateProfileActionWithUser}
+      action={updateProfileAction}
     >
       <InputWithLabel
         placeholder="Type your age..."
@@ -33,54 +40,54 @@ export const Questionnaire = ({ profile }: { profile: Profile }) => {
         type="number"
         value={ageAsNumber || ""}
         onChange={(e) =>
-          setUser((prev) => ({ ...prev, age: parseInt(e.target.value) }))
+          setProfile((prev) => ({ ...prev, age: parseInt(e.target.value) }))
         }
       />
 
       {ageAsNumber > 0 && ageAsNumber <= 32 ? (
-        <UserContext.Provider value={contextValue}>
+        <ProfileContext.Provider value={contextValue}>
           {questionNodes.studentNode()}
           <ConditionalQuestion
-            condition={user.isStudent}
+            condition={profile.isStudent}
             trueComponent={questionNodes.DutchNationalityNode()}
             falseComponent={questionNodes.notAStudentNode()}
           />
           <ConditionalQuestion
-            condition={user.isDutch}
+            condition={profile.isDutch}
             trueComponent={questionNodes.LivingAwayFromHomeNode()}
             falseComponent={questionNodes.EUPassportNode()}
           />
           <ConditionalQuestion
-            condition={user.isLivingAtHome}
+            condition={profile.isLivingAtHome}
             trueComponent={<SubmitButton />}
             falseComponent={<SubmitButton />}
           />
           <ConditionalQuestion
-            condition={user.isEU}
+            condition={profile.isEU}
             trueComponent={questionNodes.requirementsNode(ageAsNumber)}
             falseComponent={questionNodes.notEUNode()}
           />
           <ConditionalQuestion
-            condition={user.isEligible}
+            condition={profile.isEligible}
             trueComponent={questionNodes.insuranceNode()}
             falseComponent={questionNodes.insuranceNode()}
           />
           <ConditionalQuestion
-            condition={user.isInsured}
+            condition={profile.isInsured}
             trueComponent={questionNodes.insuranceBenefitNode()}
             falseComponent={questionNodes.workNode()}
           />
           <ConditionalQuestion
-            condition={user.hasInsuranceBenefit}
+            condition={profile.hasInsuranceBenefit}
             trueComponent={<SeeResultsButton />}
             falseComponent={<SeeResultsButton />}
           />
           <ConditionalQuestion
-            condition={user.isWorking}
+            condition={profile.isWorking}
             trueComponent={<SeeResultsButton />}
             falseComponent={<SeeResultsButton />}
           />
-        </UserContext.Provider>
+        </ProfileContext.Provider>
       ) : ageAsNumber > 32 ? (
         <LeafNode
           bgColor="red"
