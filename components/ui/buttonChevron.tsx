@@ -5,6 +5,7 @@ export type ButtonChevronProps = ButtonProps & { isLoading?: boolean };
 
 export const ButtonChevron = ({
   children,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   isLoading,
   ...props
 }: ButtonChevronProps) => {

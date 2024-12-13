@@ -1,5 +1,6 @@
 import Image from "next/image";
 type HighlightProps = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   image: any;
   title: string;
   subTitle: string;

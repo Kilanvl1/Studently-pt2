@@ -11,12 +11,13 @@ import { eq } from "drizzle-orm";
 export default async function ResultsPage({
   params,
 }: {
-  params: { id: number };
+  params: Promise<{ id: string }>;
 }) {
+  const { id } = await params;
   const profile = await db
     .select()
     .from(profileSchema)
-    .where(eq(profileSchema.id, params.id));
+    .where(eq(profileSchema.id, parseInt(id)));
 
   return (
     <section className="py-16">

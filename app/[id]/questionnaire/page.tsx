@@ -8,7 +8,7 @@ import { eq } from "drizzle-orm";
 export default async function QuestionnairePage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
   const profile = await db
