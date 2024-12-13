@@ -63,7 +63,7 @@ export const ResultsOverview = ({ profile }: ResultsOverviewProps) => {
             info="You are at risk of paying a 500€ insurance fine!"
           />
         )}
-        {!profile.isEligible && <NotEligible />}
+        {profile.isEligible === false && <NotEligible />}
       </div>
     </div>
   );

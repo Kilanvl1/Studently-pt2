@@ -6,6 +6,7 @@ import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";
 import { Profile } from "@/db/schema";
 import { createProfileSchema } from "@/zod-types/profile";
+import { revalidatePath } from "next/cache";
 
 export const addProfile = async (state: any, formData: FormData) => {
   const validatedData = createProfileSchema.safeParse({
@@ -36,5 +37,7 @@ export const updateProfile = async (
     .update(profileSchema)
     .set(profileObject)
     .where(eq(profileSchema.id, id));
+
+  revalidatePath(`/${id}/questionnaire`);
   redirect(`/${id}/results`);
 };
