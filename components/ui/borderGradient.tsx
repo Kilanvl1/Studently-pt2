@@ -16,7 +16,7 @@ export const BorderGradient = ({
   borderWidth,
   className = "",
   gradientColors,
-  rounded,
+  rounded = "xl",
   disabled = false,
   shouldFitContent = false,
 }: BorderGradientProps) => {
@@ -25,7 +25,12 @@ export const BorderGradient = ({
       ? "from-borderGradient-purple-start to-borderGradient-purple-end"
       : "from-borderGradient-green-start to-borderGradient-green-end";
 
-  const roundedCss = rounded ? `rounded-${rounded}` : "";
+  const roundedCss = {
+    md: "rounded-md",
+    lg: "rounded-lg",
+    xl: "rounded-xl",
+    "2xl": "rounded-2xl",
+  };
 
   return (
     <div
@@ -37,20 +42,19 @@ export const BorderGradient = ({
         className={cn(
           "absolute inset-0 bg-gradient-to-r",
           gradientCss,
-          roundedCss,
+          roundedCss[rounded],
+
           disabled ? "opacity-60" : ""
         )}
       />
 
       {/* Content container */}
       <div
-        className={`
-          relative 
-          z-10
-          overflow-hidden
-          ${roundedCss}
-          ${className}
-        `}
+        className={cn(
+          "relative z-10 overflow-hidden",
+          roundedCss[rounded],
+          className
+        )}
         style={{
           margin: borderWidth,
         }}
