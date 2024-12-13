@@ -22,9 +22,9 @@ export const addProfile = async (state: any, formData: FormData) => {
       .insert(profileSchema)
       .values(validatedData.data)
       .returning({ id: profileSchema.id })
-  )[0].id;
+  )[0].id.toString();
 
-  /* redirect(`/${newId}/questionnaire`); */
+  redirect(`/${newId}/questionnaire`);
 };
 
 export const updateProfile = async (
