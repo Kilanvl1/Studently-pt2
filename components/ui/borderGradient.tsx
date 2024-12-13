@@ -3,37 +3,43 @@ import { ReactNode } from "react";
 
 interface BorderGradientProps {
   children: ReactNode;
-  borderWidth?: number;
+  borderWidth: number;
   className?: string;
   gradientColors: "purple" | "green";
-  rounded?: boolean;
+  rounded?: "md" | "lg" | "xl" | "2xl";
   disabled?: boolean;
+  shouldFitContent?: boolean;
 }
 
 export const BorderGradient = ({
   children,
-  borderWidth = 2,
+  borderWidth,
   className = "",
   gradientColors,
-  rounded = true,
+  rounded,
   disabled = false,
+  shouldFitContent = false,
 }: BorderGradientProps) => {
   const gradientCss =
     gradientColors === "purple"
       ? "from-borderGradient-purple-start to-borderGradient-purple-end"
       : "from-borderGradient-green-start to-borderGradient-green-end";
+
+  const roundedCss = rounded ? `rounded-${rounded}` : "";
+
   return (
-    <div className="relative group w-fit" style={{ padding: borderWidth }}>
+    <div
+      className={cn("relative group", shouldFitContent ? "w-fit" : "")}
+      style={{ padding: borderWidth }}
+    >
       {/* Gradient border container */}
       <div
-        className={`
-          absolute 
-          inset-0 
-          bg-gradient-to-r 
-          ${gradientCss}
-          ${rounded ? "rounded-2xl" : ""}
-          ${disabled ? "opacity-60" : ""}
-        `}
+        className={cn(
+          "absolute inset-0 bg-gradient-to-r",
+          gradientCss,
+          roundedCss,
+          disabled ? "opacity-60" : ""
+        )}
       />
 
       {/* Content container */}
@@ -42,7 +48,7 @@ export const BorderGradient = ({
           relative 
           z-10
           overflow-hidden
-          ${rounded ? "rounded-2xl" : ""}
+          ${roundedCss}
           ${className}
         `}
         style={{

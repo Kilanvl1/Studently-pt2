@@ -1,6 +1,6 @@
 import { QuestionNode } from "./questionNode";
 
-import { LeafNode } from "./leafNode";
+import { LeafNode } from "../../../components/ui/leafNode";
 import check from "@/public/check.svg";
 
 import Image from "next/image";

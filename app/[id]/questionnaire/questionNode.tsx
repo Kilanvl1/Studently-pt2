@@ -12,6 +12,7 @@ import Image from "next/image";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { profile } from "@/db/schema";
+import { BorderGradient } from "@/components/ui/borderGradient";
 
 export type User = {
   [key: string]: any;
@@ -99,13 +100,25 @@ export const QuestionNode = ({
       {children}
       <RadioGroup onValueChange={handleSelectChange}>
         {value === "yes" ? (
-          <MyRadioGroupItem value="yes" label="Yes" checked />
+          <BorderGradient
+            gradientColors="purple"
+            borderWidth={0.5}
+            rounded="lg"
+          >
+            <MyRadioGroupItem value="yes" label="Yes" checked />
+          </BorderGradient>
         ) : (
           <MyRadioGroupItem value="yes" label="Yes" />
         )}
 
         {value === "no" ? (
-          <MyRadioGroupItem value="no" label="No" checked />
+          <BorderGradient
+            gradientColors="purple"
+            borderWidth={0.5}
+            rounded="lg"
+          >
+            <MyRadioGroupItem value="no" label="No" checked />
+          </BorderGradient>
         ) : (
           <MyRadioGroupItem value="no" label="No" />
         )}

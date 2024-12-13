@@ -10,7 +10,13 @@ export const SubmitButton = ({ disabled }: SubmitButtonProps) => {
   const { pending } = useFormStatus();
 
   return (
-    <BorderGradient gradientColors="purple" borderWidth={1} disabled={disabled}>
+    <BorderGradient
+      gradientColors="purple"
+      borderWidth={1}
+      disabled={disabled}
+      rounded="2xl"
+      shouldFitContent={true}
+    >
       <Button type="submit" disabled={pending || disabled}>
         {pending ? "Submitting..." : "Submit"}
       </Button>

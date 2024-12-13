@@ -10,7 +10,12 @@ function scrollToProfileSection() {
 
 export const CtaButton = () => {
   return (
-    <BorderGradient gradientColors="purple" borderWidth={1}>
+    <BorderGradient
+      gradientColors="purple"
+      borderWidth={1}
+      shouldFitContent={true}
+      rounded="2xl"
+    >
       <ButtonChevron onClick={scrollToProfileSection}>
         Unlock my benefits
       </ButtonChevron>

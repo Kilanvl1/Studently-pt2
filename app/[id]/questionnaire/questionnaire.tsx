@@ -4,41 +4,28 @@ import { useState } from "react";
 
 import { UserContext, UserContextType } from "./questionNode";
 import { InputWithLabel } from "@/components/ui/inputWithLabel";
-import { LeafNode } from "./leafNode";
+import { LeafNode } from "../../../components/ui/leafNode";
 import { SeeResultsButton } from "./seeResultsButton";
 
 import { updateProfile } from "@/actions/profileAction";
 
 import { ConditionalQuestion } from "./conditionalQuestion";
 import { questionNodes } from "./questionNodes";
-import { Profile } from "@/types/profile";
+
+import { Profile } from "@/db/schema";
+import { SubmitButton } from "@/components/ui/submitButton";
 
 export const Questionnaire = ({ profile }: { profile: Profile }) => {
   const [user, setUser] = useState(profile);
-
-  // Update profile and navigate to results page
-  const handleQuestionnaireSubmit = async (
-    e: React.FormEvent<HTMLFormElement>
-  ) => {
-    e.preventDefault();
-
-    // Create a new object with all properties set to null
-    const nullifiedProfile = Object.fromEntries(
-      Object.keys(profile).map((key) => [key, null])
-    );
-
-    // Merge the nullified profile with the current user state
-    const updatedProfile = { ...nullifiedProfile, ...user };
-    await updateProfile(profile.id, updatedProfile);
-  };
+  const updateProfileActionWithUser = updateProfile.bind(null, user);
 
   const contextValue: UserContextType = { user, updateUser: setUser };
   const ageAsNumber = user.age ?? 0;
-
+  console.log(user);
   return (
     <form
       className="flex flex-col gap-y-8 2xl:flex-1 min-h-[80vh] max-w-[32rem]"
-      onSubmit={handleQuestionnaireSubmit}
+      action={updateProfileActionWithUser}
     >
       <InputWithLabel
         placeholder="Type your age..."
@@ -65,8 +52,8 @@ export const Questionnaire = ({ profile }: { profile: Profile }) => {
           />
           <ConditionalQuestion
             condition={user.isLivingAtHome}
-            trueComponent={<SeeResultsButton />}
-            falseComponent={<SeeResultsButton />}
+            trueComponent={<SubmitButton />}
+            falseComponent={<SubmitButton />}
           />
           <ConditionalQuestion
             condition={user.isEU}

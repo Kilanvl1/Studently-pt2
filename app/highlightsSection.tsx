@@ -13,7 +13,12 @@ export const HighlightsSection = () => {
       <h1 className="font-bold text-3xl max-w-80">
         We do the hard work, you enjoy the money
       </h1>
-      <BorderGradient gradientColors="purple" borderWidth={1}>
+      <BorderGradient
+        gradientColors="purple"
+        borderWidth={1}
+        rounded="2xl"
+        shouldFitContent={true}
+      >
         <Link href="about-us" className={buttonVariants()}>
           Meet the founders
         </Link>

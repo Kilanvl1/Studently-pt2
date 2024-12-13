@@ -8,7 +8,7 @@ export const todo = pgTable("todo", {
   done: boolean("done").default(false).notNull(),
 });
 
-export const profile = pgTable("profile", {
+export const profileSchema = pgTable("profile", {
   id: serial("id").primaryKey().unique(),
   name: text("name").notNull(),
   age: integer("age"),
@@ -24,5 +24,5 @@ export const profile = pgTable("profile", {
   isLivingAtHome: boolean("is_living_at_home").default(sql`NULL`),
 });
 
-export type Profile = InferSelectModel<typeof profile>;
-export type NewProfile = InferInsertModel<typeof profile>;
+export type Profile = InferSelectModel<typeof profileSchema>;
+export type NewProfile = InferInsertModel<typeof profileSchema>;

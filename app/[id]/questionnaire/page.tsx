@@ -2,7 +2,7 @@ import { Container } from "@/components/ui/container";
 import { BackButton } from "@/components/ui/backButton";
 import { Questionnaire } from "./questionnaire";
 import { db } from "@/db/drizzle";
-import { profile } from "@/db/schema";
+import { profileSchema } from "@/db/schema";
 import { eq } from "drizzle-orm";
 
 export default async function QuestionnairePage({
@@ -11,10 +11,10 @@ export default async function QuestionnairePage({
   params: { id: string };
 }) {
   const { id } = await params;
-  const profileObject = await db
+  const profile = await db
     .select()
-    .from(profile)
-    .where(eq(profile.id, parseInt(id)));
+    .from(profileSchema)
+    .where(eq(profileSchema.id, parseInt(id)));
 
   return (
     <Container className="pt-32">
@@ -31,7 +31,7 @@ export default async function QuestionnairePage({
           </p>
         </div>
 
-        <Questionnaire profile={profileObject[0]} />
+        <Questionnaire profile={profile[0]} />
       </div>
     </Container>
   );

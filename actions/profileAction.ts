@@ -1,11 +1,11 @@
 "use server";
 
 import { db } from "@/db/drizzle";
-import { profile } from "@/db/schema";
+import { profileSchema } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";
-import { NewProfile, Profile } from "@/db/schema";
-import { CreateProfileType, createProfileSchema } from "@/zod-types/profile";
+import { Profile } from "@/db/schema";
+import { createProfileSchema } from "@/zod-types/profile";
 
 export const addProfile = async (state: any, formData: FormData) => {
   const validatedData = createProfileSchema.safeParse({
@@ -19,15 +19,22 @@ export const addProfile = async (state: any, formData: FormData) => {
 
   const newId = (
     await db
-      .insert(profile)
+      .insert(profileSchema)
       .values(validatedData.data)
-      .returning({ id: profile.id })
+      .returning({ id: profileSchema.id })
   )[0].id;
 
   redirect(`/${newId}/questionnaire`);
 };
 
-export const updateProfile = async (id: number, updatedProfile: Profile) => {
-  await db.update(profile).set(updatedProfile).where(eq(profile.id, id));
+export const updateProfile = async (
+  profileObject: Profile,
+  formData: FormData
+) => {
+  const id = profileObject.id;
+  await db
+    .update(profileSchema)
+    .set(profileObject)
+    .where(eq(profileSchema.id, id));
   redirect(`/${id}/results`);
 };
