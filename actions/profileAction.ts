@@ -16,15 +16,15 @@ export const addProfile = async (state: any, formData: FormData) => {
   if (!validatedData.success) {
     return { errors: validatedData.error.flatten().fieldErrors };
   }
-  /*
+
   const newId = (
     await db
       .insert(profileSchema)
       .values(validatedData.data)
       .returning({ id: profileSchema.id })
-  )[0].id; 
+  )[0].id;
 
-  redirect(`/${newId}/questionnaire`); */
+  /* redirect(`/${newId}/questionnaire`); */
 };
 
 export const updateProfile = async (
